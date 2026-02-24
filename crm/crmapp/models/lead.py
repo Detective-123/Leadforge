@@ -1,0 +1,29 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+from .common import Company
+
+class Lead(models.Model):
+    company=models.ForeignKey(Company,on_delete=models.CASCADE)
+    owner=models.ForeignKey(User,on_delete=models.CASCADE)
+    name=models.CharField(max_length=100)
+    phone=models.CharField(max_length=15)
+    email=models.EmailField(unique=True)
+    source=models.CharField(max_length=100)
+    STATUS_CHOICE=[
+        ('new','New'),
+        ('contacted','Contacted'),
+        ('qualified','Qualified'),
+        ('converted','Converted'),
+        ('lost','Lost')
+    ]
+    status=models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICE,
+        default="new"
+        
+    )
+    value = models.DecimalField(max_digits=12, decimal_places=2)
+    note=models.TextField(blank=True)
+    def __str__(self):
+        return self.name

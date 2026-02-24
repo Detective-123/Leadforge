@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
-from crmapp import views
+from .views.user_views import home
 
 urlpatterns = [
-    path("", views.home, name="home"),
+    path("user/", home, name="user_home"),
 ]
