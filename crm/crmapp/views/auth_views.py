@@ -52,3 +52,9 @@ def register_owner(request):
   
   except Exception as e:
     return JsonResponse({"error": str(e)}, status=400)
+  
+
+@csrf_exempt
+def register_users(request):
+  pass
+  # ON-HOLD WILL BE COMPLETED LATER

@@ -7,7 +7,6 @@ from .common import Company
 class Userprofile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.URLField(blank=True, null=True)
-    gender = models.CharField(max_length=20)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     is_emailverified = models.BooleanField(default=True)
 
@@ -16,7 +15,6 @@ class Userprofile(models.Model):
         ("manager", "Manager"),
         ("member", "Member"),
     ]
-
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     def __str__(self):
