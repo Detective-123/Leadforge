@@ -3,19 +3,28 @@ from django.contrib.auth.models import User
 
 from .common import Company
 
+
 class Userprofile(models.Model):
-    user=models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar=models.URLField()
-    fullname=models.CharField(max_length=100)
-    gender=models.CharField(max_length=20)
-    company=models.ForeignKey(Company,on_delete=models.CASCADE)
-    is_emailverified=models.BooleanField(default=True)
-    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.URLField(blank=True, null=True)
+    gender = models.CharField(max_length=20)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    is_emailverified = models.BooleanField(default=True)
+
+    ROLE_CHOICES = [
+        ("admin", "Admin"),
+        ("manager", "Manager"),
+        ("member", "Member"),
+    ]
+
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
     def __str__(self):
         return self.user.username
-    
+
 
 # REMOVED FIELDS
+# fullname=models.CharField(max_length=100)
 # username=models.CharField(max_length=100)
 # email=models.EmailField(unique=True)
 # is_active=models.BooleanField(default=True)

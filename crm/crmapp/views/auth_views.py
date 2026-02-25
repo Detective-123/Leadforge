@@ -1,29 +1,54 @@
-from django.shortcuts import render 
-from django.contrib.auth import authenticate
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
+from django.contrib.auth.models import User
+from ..models.common import Company
+from ..models.user import Userprofile
 
-# test route
-def home(request):
-  return render(request, "home.html")
-
-# Login view
-class LoginView(APIView):
-  def post(self, request):
-    username = request.data.get("username")
-    password = request.data.get("password")
-
-    user = authenticate(username=username, password=password)
-
-    if user:
-      return Response({
-        "message": "Login successful",
-        "username": user.username,
-        "email": user.email
-      })
+@csrf_exempt
+def register_owner(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST method required"}, status=400)
+  
+  try:
+    data = json.loads(request.body)
     
-    return Response(
-      {"error": "Invalid credentials"},
-      status=status.HTTP_401_UNAUTHORIZED
-    )
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    company_name = data.get("company_name")
+    domain = data.get("domain")
+    phone = data.get("phone")
+    country = data.get("country")
+    address = data.get("address")
+
+    with transaction.atomic():
+
+      company = Company.objects.create(
+        title = company_name,
+        domain = domain,
+        phone = phone,
+        country = country,
+        address = address
+      )
+
+      user  = User.objects.create_user(
+        username=username,
+        email=email,
+        password=password
+      )
+
+      Userprofile.objects.create(
+        user=user,
+        company=company,
+        role="admin"
+      )
+    
+    return JsonResponse({
+      "message": "Company and owner created successfully",
+      "company_code": company.code
+    }, status=201)
+  
+  except Exception as e:
+    return JsonResponse({"error": str(e)}, status=400)

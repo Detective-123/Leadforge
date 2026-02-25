@@ -1,4 +1,4 @@
-from .common import Company, Location
+from .common import Company
 from .user import Userprofile
 from .contact import Contact
 from .deal import Deal
