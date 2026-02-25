@@ -1,2 +1,6 @@
-from .common import * 
-from .user import * 
+from .common import Company, Location
+from .user import Userprofile
+from .contact import Contact
+from .deal import Deal
+from .lead import Lead
+from .task import Task
