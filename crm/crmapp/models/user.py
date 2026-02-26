@@ -8,7 +8,7 @@ class Userprofile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.URLField(blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    is_emailverified = models.BooleanField(default=True)
+    is_emailverified = models.BooleanField(default=False)
 
     ROLE_CHOICES = [
         ("admin", "Admin"),

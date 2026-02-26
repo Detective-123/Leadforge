@@ -23,4 +23,5 @@ class Deal(models.Model):
         default="prospecting"
     )
     expected_closed_date=models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
     note=models.TextField(blank=True)
