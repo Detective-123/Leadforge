@@ -1,62 +1,100 @@
 # LeadForge
-### It is a CRM fullstack application made by using django framework in python.
 
-### Following are the modules which were used
-```
-django
-djangorestframework
-psycopg2-binary
-```
-
-## Features
-#### Authentication System
-- Company Owner Registration (creates new company + admin user)
-- Employee Registration using unique company code
-- Secure Login (session-based authentication)
-- Logout functionality
-- Get current authenticated user details
-- Change current password of current authenticated user
+**LeadForge** is a powerful, multi-tenant CRM built with Django and Django REST Framework, designed for secure company management, robust authentication, and role-based access.
 
 ---
 
-#### Multi-Tenant Architecture
-- Each company has a unique company code
-- Users are strictly bound to one company
-- Cross-company data access is blocked
-- All sensitive operations validate company ownership
-- Company-level isolation enforced across user management actions
+## Table of Contents
+
+1. [Features](#features)
+2. [Architecture Highlights](#architecture-highlights)
+3. [Setup & Installation](#setup--installation)
+4. [Usage Guide](#usage-guide)
+
+---
+
+## Features
+
+### Authentication System
+- Company Owner Registration (Company + admin creation)
+- Employee Registration using company code
+- Secure session-based login/logout
+- Change current user password
+- Get authenticated user details
+
+### Multi-Tenant Architecture
+- Companies assigned unique codes
+- Data isolation per company
+- Strict company-level validation for all user actions
+
+### Role-Based Access Control (RBAC)
+- Roles: `admin`, `manager`, `member`
+- Fine-grained permissions (custom decorator: `role_required`)
+
+### User Management
+- Soft delete/reactivation of users
+- Role modification within company scope
+- Prevention of unauthorized actions & data access
+
+### Security & Data Integrity
+- Atomic transactions for key operations
+- Role and company validation at every sensitive step
+- Authentication required for protected endpoints
+- Soft delete prevents data loss
+
+---
+
+## Architecture Highlights
+
+- **Frameworks:** Django + Django REST Framework
+- **Database:** PostgreSQL (`psycopg2-binary`)
+- **Strict multi-tenancy:** Companies completely separated
+- **Role-based permissions:** Custom decorator implementation
+- **Secure authentication:** session-backed, robust by design
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+
+- Python 3.8+
+- PostgreSQL
+
+### Install Dependencies `(Recommended: Use virtual env)`
+
+```bash
+pip install django djangorestframework psycopg2-binary
+```
+
+### Clone the Repository
+```bash
+git clone https://github.com/Detective-123/Leadforge.git
+cd Leadforge
+```
+
+### Database Setup
+- Create a PostgreSQL database/user
+- Configure `settings.py` with credentials
+
+### Run Migrations
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### Start Server
+```bash
+python manage.py runserver
+```
+
+----
+## Usage Guide
+
+- **Register a company owner:** Begins your company, creates admin.
+- **Employee onboarding:** Join company using the company code.
+- **Manage users & roles:** Admins can change employee status/roles.
+- **Access control:** All endpoints require proper authentication & authorization.
 
 ----
 
-#### Role - Based Access Control (RBAC)
-- Supported Roles
-  - `admin`
-  - `manager`
-  - `member`
-- Role Permissions
-  - Admin
-    - Full control over company users
-    - Can delete, reactivate and change roles
-  - Manager
-    - Limited user management permissions
-  - Member
-    - Basic access, no management priveleges
-- Access control enforced using a custom `role_required` decorator
----
-
-#### User Management
-- Soft deleting a user (altering the is_active parameter)
-- Reactivate previously deactivated users
-- Change user roles within the same company
-- Prevent users from modifying accounts of other companies
-- Prevent unauthorized self-deletion
-- Role and company validation before every user modification
-
----
-
-#### Security & Data Integrity
-- `transaction.atomic()` used to ensure safe company + owner creation
-- Authentication required for protected endpoints
-- Role validation before sensitive actions
-- Company validation before modifying users
-- Soft delete strategy prevents accidental data loss
