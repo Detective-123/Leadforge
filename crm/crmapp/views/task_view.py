@@ -7,37 +7,37 @@ from ..models.contact import Contact
 
 
 @csrf_exempt
-def get_all_contacts(request):
+def get_all_tasks(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })
 
 @csrf_exempt
-def create_contact(request):
+def create_task(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })
 
 @csrf_exempt
-def update_contact(request):
+def update_task(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })
 
 @csrf_exempt
-def delete_contact(request):
+def delete_task(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })
 
 @csrf_exempt
-def get_contact_by_id(request):
+def get_task_by_id(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })
 
 @csrf_exempt
-def reactivate_contact(request):
+def reactivate_task(request):
   return JsonResponse({
     "error": "This function is still in hold and in progress"
   })

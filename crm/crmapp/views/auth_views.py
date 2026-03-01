@@ -318,3 +318,4 @@ def change_password(request):
   return JsonResponse({
     "message": "Password changed successfully",
   })
+
