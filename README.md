@@ -64,7 +64,7 @@
 ### Install Dependencies `(Recommended: Use virtual env)`
 
 ```bash
-pip install django djangorestframework psycopg2-binary
+pip install django djangorestframework psycopg2-binary python-dotenv
 ```
 
 ### Clone the Repository
@@ -75,6 +75,7 @@ cd Leadforge
 
 ### Database Setup
 - Create a PostgreSQL database/user
+- Create a `.env` file with your db/user credentials
 - Configure `settings.py` with credentials
 
 ### Run Migrations

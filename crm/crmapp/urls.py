@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from .views.test_views import home, hello
 from .views.auth_views import register_owner, register_employee, login_user, get_current_user, logout_user, delete_user, reactivate_user, change_roles, change_password
-from .views.company_views import get_all_users
+from .views.company_views import get_all_users, get_company, update_company, delete_company, reactivate_company
 
 urlpatterns = [
     # TESTING URLS (TEMPORARY)
@@ -10,7 +10,7 @@ urlpatterns = [
     path("test", hello, name="hello"),
 
     # AUTH URLS
-    path("register-owner", register_owner, name="register_owner"),
+    path("auth/register-owner", register_owner, name="register_owner"),
     path("auth/register-employee/<str:company_code>", register_employee, name="register_employee"),
     path("auth/login", login_user, name="login_user"),
     path("auth/me", get_current_user, name="get_current_user"),
@@ -21,7 +21,10 @@ urlpatterns = [
     path("auth/change-password", change_password, name="change-pass"),
 
     # COMPANY URLS
-    path("comp/<str:company_id>/users", get_all_users ,name="get_all_users")
-
+    path("comp/users", get_all_users ,name="get_all_users"),
+    path("comp/get-company", get_company, name="get_company"),
+    path("comp/delete", delete_company, name="delete_company"),
+    path("comp/delete", delete_company, name="delete_company"),
+    path("comp/reactivate", reactivate_company, name="reactivate_company"),
     # OTHER URLS
 ]   
