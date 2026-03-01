@@ -1,11 +1,18 @@
 from django.shortcuts import render 
 from ..decorators import role_required
 from django.contrib.auth.decorators import login_required
+import os
+
+"""
+def helo_noob():
+  print("this is a test function")
+  print(os.getenv("DB_NAME"))
+"""
 
 def home(request):
+  # helo_noob()
   return render(request, "home.html")
 
-@role_required(["admin"])
 @login_required
 def hello(request):
   print("THIS IS AN IMPORTANT PRINT", request.user)
@@ -31,3 +38,4 @@ def login_user(request):
 
     return render(request, "login.html")
 """
+

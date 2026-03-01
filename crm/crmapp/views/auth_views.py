@@ -1,6 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from ..decorators import role_required
@@ -293,36 +294,27 @@ def change_roles(request, user_id):
   })
 
 @csrf_exempt
-def change_password(request, user_id):
-  if request.method != "POST":
-    return JsonResponse({"error": "POST request required"}, status=405)
+@require_http_methods(["POST"])
+def change_password(request):
 
   if not request.user.is_authenticated:
     return JsonResponse({"error": "Not authenticated"}, status=401)
-  
-  curr_profile = Userprofile.objects.filter(user = request.user).first()
-  if not curr_profile:
-    return JsonResponse({"error": "Profile not found"}, status=404)
 
   data = json.loads(request.body)
   old_password = data.get("old_password")
   new_password = data.get("new_password")
 
-  try:
-    user = authenticate(request, username=request.user.username, password=old_password)
-    current_user = User.objects.get(id=user_id)
+  if not old_password or not new_password:
+    return JsonResponse({"error": "Both password required"}, status=400)
 
-    if not user:
-      return JsonResponse({"error": "Invalid old password"}, status=400)
-  except User.DoesNotExist:
-    return JsonResponse({"error": "User does not exists"}, status=404)
+  user = authenticate(request, username=request.user.username, password=old_password)
   
-  user.set_password = new_password
+  if not user:
+    return JsonResponse({"error": "Invalid old password"}, status=400)
+
+  user.set_password(new_password)
   user.save()
 
   return JsonResponse({
     "message": "Password changed successfully",
-    "username": current_user.username,
-    "company": current_user.userprofile.company.title,
-    "role": current_user.userprofile.role
   })

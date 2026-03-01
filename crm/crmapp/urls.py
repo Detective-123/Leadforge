@@ -5,6 +5,7 @@ from .views.auth_views import register_owner, register_employee, login_user, get
 from .views.company_views import get_all_users
 
 urlpatterns = [
+    # TESTING URLS (TEMPORARY)
     path("user/", home, name="user_home"),
     path("test", hello, name="hello"),
 
@@ -17,11 +18,10 @@ urlpatterns = [
     path("auth/<str:user_id>/delete", delete_user, name="delete_user"),
     path("auth/<str:user_id>/reactivate", reactivate_user, name="reactivate_user"),
     path("auth/<str:user_id>/change-role", change_roles, name="change_roles"),
-    path("auth/<str:user_id>/change-pass", change_password, name="change-pass"),
+    path("auth/change-password", change_password, name="change-pass"),
 
     # COMPANY URLS
     path("comp/<str:company_id>/users", get_all_users ,name="get_all_users")
-
 
     # OTHER URLS
 ]   
