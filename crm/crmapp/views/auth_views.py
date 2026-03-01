@@ -9,10 +9,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from ..models.common import Company
 from ..models.user import Userprofile
-<<<<<<< HEAD
-from django.contrib.auth import authenticate, login, logout
-@csrf_exempt
-=======
 
 
 """
@@ -29,7 +25,6 @@ from django.contrib.auth import authenticate, login, logout
 
 # REGISTRATION FOR COMPANY OWNERS / NEW USERS WHO CREATE COMPANY DURING REGISTRATION
 @csrf_exempt    # FOR TEMPORARY BASIC(DEV) CAN USE PROPER CSRF/AUTH
->>>>>>> 52720490142b541dd15c4fe4587e7c5214889c37
 def register_owner(request):
   if request.method != "POST":
     return JsonResponse({"error": "POST method required"}, status=400)
@@ -198,32 +193,6 @@ def logout_user(request):
 
 
 @csrf_exempt
-<<<<<<< HEAD
-def register_users(request):
-  pass
-  # ON-HOLD WILL BE COMPLETED LATER
-def login_user(request):
-  if request.method != "POST":
-    return JsonResponse({"error": "POST request required"}, status=405)
-
-  data = json.loads(request.body)
-  username = data.get("username")
-  password = data.get("password")
-
-  user = authenticate(request, username=username, password=password)
-
-  if user is not None:
-    login(request, user)
-    profile, created = Userprofile.objects.get_or_create(user=user)
-    return JsonResponse({
-      "message": "Login successfull",
-      "username": user.username,
-      "role": profile.role,
-      "company": profile.company.title
-    }, status=200)
-  else:
-    return JsonResponse({"error": "Invalid username or password"}, status=401)
-=======
 @role_required(["admin", "manager"])
 def delete_user(request, user_id):
   if request.method != "DELETE":
@@ -350,4 +319,3 @@ def change_password(request):
     "message": "Password changed successfully",
   })
 
->>>>>>> 52720490142b541dd15c4fe4587e7c5214889c37

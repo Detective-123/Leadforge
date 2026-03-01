@@ -1,28 +1,15 @@
 from django.contrib import admin
 from django.urls import include, path
-<<<<<<< HEAD
-from .views.user_views import home
-from .views.auth_views import register_owner,login_user
-from .views.deals_views import create_deal,deal_list,test_page
-=======
 from .views.test_views import home, hello
 from .views.auth_views import register_owner, register_employee, login_user, get_current_user, logout_user, delete_user, reactivate_user, change_roles, change_password
 from .views.company_views import get_all_users, get_company, update_company, delete_company, reactivate_company
 from .views.contacts_view import create_contact, get_all_contacts, get_contact_by_id, update_contact, delete_contact, reactivate_contact
 from .views.lead_view import create_lead, get_all_leads, get_lead_by_id, update_lead, delete_lead, reactivate_lead
 from .views.task_view import create_task, get_all_tasks, get_task_by_id, update_task, delete_task, reactivate_task
->>>>>>> 52720490142b541dd15c4fe4587e7c5214889c37
 
 urlpatterns = [
     # TESTING URLS (TEMPORARY)
     path("user/", home, name="user_home"),
-<<<<<<< HEAD
-    path("register-owner/", register_owner, name="register_owner"),
-    path("create-deals/",create_deal, name="create_deal"),
-    path("deal-list/",deal_list, name="deal_list"),
-    path("", test_page, name="test_page"),
-] 
-=======
     path("test", hello, name="hello"),
 
     # AUTH URLS
@@ -72,4 +59,3 @@ urlpatterns = [
     # OTHER URLS
     
 ]   
->>>>>>> 52720490142b541dd15c4fe4587e7c5214889c37
