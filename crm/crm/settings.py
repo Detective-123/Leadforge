@@ -78,11 +78,19 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+<<<<<<< HEAD
         'NAME': 'crm_db',
         'USER': 'postgres',
         'PASSWORD': 'ronit123',
         'HOST': 'localhost',
         'PORT': '5432'
+=======
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASS"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT")
+>>>>>>> 52720490142b541dd15c4fe4587e7c5214889c37
     }
 }
 
@@ -123,7 +131,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#added manually
+"""
+------------------------ADDED MANUALLY------------------------
+"""
+
 # STATICFILES_DIRS = [
 #   os.path.join(BASE_DIR, "static"),
 # ]
+
+# EMAIL SENDING MAILTRAP CREDENTIALS
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "sandbox.smtp.mailtrap.io"
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASS")
+
+DEFAULT_FROM_EMAIL = "noreply@yourcrm.com"
