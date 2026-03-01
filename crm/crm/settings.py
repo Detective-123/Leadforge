@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'crmapp.apps.CrmappConfig',
-    'rest_framework',
+    #'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'crm_db',
         'USER': 'postgres',
-        'PASSWORD': 'admin123',
+        'PASSWORD': 'ronit123',
         'HOST': 'localhost',
         'PORT': '5432'
     }

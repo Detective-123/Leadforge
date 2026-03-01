@@ -5,7 +5,7 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from ..models.common import Company
 from ..models.user import Userprofile
-
+from django.contrib.auth import authenticate, login, logout
 @csrf_exempt
 def register_owner(request):
   if request.method != "POST":
@@ -58,3 +58,24 @@ def register_owner(request):
 def register_users(request):
   pass
   # ON-HOLD WILL BE COMPLETED LATER
+def login_user(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST request required"}, status=405)
+
+  data = json.loads(request.body)
+  username = data.get("username")
+  password = data.get("password")
+
+  user = authenticate(request, username=username, password=password)
+
+  if user is not None:
+    login(request, user)
+    profile, created = Userprofile.objects.get_or_create(user=user)
+    return JsonResponse({
+      "message": "Login successfull",
+      "username": user.username,
+      "role": profile.role,
+      "company": profile.company.title
+    }, status=200)
+  else:
+    return JsonResponse({"error": "Invalid username or password"}, status=401)
