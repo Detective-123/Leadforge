@@ -27,7 +27,6 @@ def create_deal(request,contact_id):
     profile=request.user.userprofile
     company=profile.company
     owner=request.user
-    #hello
     
     try:
         contact = Contact.objects.get(id=contact_id)
