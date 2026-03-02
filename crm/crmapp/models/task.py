@@ -1,32 +1,48 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from .common import Company
 
+
 class Task(models.Model):
-    company=models.ForeignKey(Company,on_delete=models.CASCADE)
-    assignedTo=models.ForeignKey(User,on_delete=models.CASCADE,related_name="tasks_assigned")
-    assignedBy=models.ForeignKey(User,on_delete=models.CASCADE,related_name="tasks_created")
-    model_choice=[
-        ('lead','Lead'),
-        ('contact','Contact'),
-        ('deal','Deal'),
-    ]
-    related_models=models.CharField(
-        max_length=20,
-        choices=model_choice,
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, db_index=True)
+    assignedTo = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="tasks_assigned",
     )
-    STATUS_CHOICE=[
-        ('pending','Pending'),
-        ('in-progress','In-progress'),
-        ('completed','Completed')
-    ]
-    status=models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICE,
-        default='pending'
+    assignedBy = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="tasks_created",
     )
-    duedate=models.DateField()
-    attachement=models.URLField()
-    description=models.CharField(max_length=200)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    related_object = GenericForeignKey("content_type", "object_id")
+    STATUS_CHOICE = [
+        ("pending", "Pending"),
+        ("in-progress", "In-progress"),
+        ("completed", "Completed"),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICE, default="pending", db_index=True)
+    duedate = models.DateField(db_index=True)
+    attachement = models.URLField(blank=True, null=True)
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["duedate"]
+        indexes = [
+            models.Index(fields=["content_type", "object_id"]),
+            models.Index(fields=["company", "status"]),
+        ]
+
+    def clean(self):
+        if self.related_models and self.related_models.company != self.company:
+            raise ValidationError("Related object must belong to the same company")

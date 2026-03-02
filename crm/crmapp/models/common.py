@@ -5,8 +5,8 @@ import uuid
 # Create your models here
 class Company(models.Model):
     title = models.CharField(max_length=150)
-    domain = models.CharField(max_length=100, unique=True)
-    code = models.CharField(max_length=12, unique=True, blank=True)
+    domain = models.CharField(max_length=100, unique=True, db_index=True)
+    code = models.CharField(max_length=12, unique=True, blank=True, db_index=True)
     phone = models.CharField(max_length=15)
     country = models.CharField(max_length=100)
     address = models.CharField(max_length=255)

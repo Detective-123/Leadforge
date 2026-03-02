@@ -7,7 +7,7 @@ from .common import Company
 class Userprofile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.URLField(blank=True, null=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True, db_index=True, related_name="users")
     is_emailverified = models.BooleanField(default=False)
 
     ROLE_CHOICES = [
@@ -15,7 +15,7 @@ class Userprofile(models.Model):
         ("manager", "Manager"),
         ("member", "Member"),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="admin")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="member", db_index=True)
 
     def __str__(self):
         return self.user.username
