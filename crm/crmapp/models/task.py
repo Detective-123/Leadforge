@@ -44,5 +44,5 @@ class Task(models.Model):
         ]
 
     def clean(self):
-        if self.related_models and self.related_models.company != self.company:
+        if self.related_object and self.related_object.company != self.company:
             raise ValidationError("Related object must belong to the same company")
