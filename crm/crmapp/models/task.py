@@ -39,7 +39,7 @@ class Task(models.Model):
     class Meta:
         ordering = ["duedate"]
         indexes = [
-            models.Index(fields=["content_type", "object_id"]),
+            models.Index(fields=["content_type", "                                                                                                            "]),
             models.Index(fields=["company", "status"]),
         ]
 
